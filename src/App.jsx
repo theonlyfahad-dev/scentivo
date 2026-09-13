@@ -25,44 +25,68 @@ function App() {
   }
 
   function addToCart(product, quantity = 1) {
-    let newCart = [...cart];
-    let found = false;
+    let newCart = [];
+    for (let i = 0; i < cart.length; i++) {
+      newCart.push(cart[i]);
+    }
 
+    let found = false;
     for (let i = 0; i < newCart.length; i++) {
       if (newCart[i].id === product.id) {
-        newCart[i].quantity += quantity;
+        newCart[i].quantity = newCart[i].quantity + quantity;
         found = true;
       }
     }
 
     if (found === false) {
-      newCart.push({ ...product, quantity: quantity });
+      let newProduct = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        notes: product.notes,
+        image: product.image,
+        size: product.size,
+        quantity: quantity
+      };
+      newCart.push(newProduct);
     }
 
     updateCartAndSave(newCart);
   }
 
   function removeFromCart(productId) {
-    let newCart = cart.filter(item => item.id !== productId);
+    let newCart = [];
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].id !== productId) {
+        newCart.push(cart[i]);
+      }
+    }
     updateCartAndSave(newCart);
   }
 
   function increaseQuantity(productId) {
-    let newCart = [...cart];
+    let newCart = [];
+    for (let i = 0; i < cart.length; i++) {
+      newCart.push(cart[i]);
+    }
     for (let i = 0; i < newCart.length; i++) {
       if (newCart[i].id === productId) {
-        newCart[i].quantity += 1;
+        newCart[i].quantity = newCart[i].quantity + 1;
       }
     }
     updateCartAndSave(newCart);
   }
 
   function decreaseQuantity(productId) {
-    let newCart = [...cart];
+    let newCart = [];
+    for (let i = 0; i < cart.length; i++) {
+      newCart.push(cart[i]);
+    }
     for (let i = 0; i < newCart.length; i++) {
       if (newCart[i].id === productId) {
         if (newCart[i].quantity > 1) {
-          newCart[i].quantity -= 1;
+          newCart[i].quantity = newCart[i].quantity - 1;
         }
       }
     }
@@ -75,14 +99,14 @@ function App() {
 
   function scrollToProducts() {
     const section = document.getElementById('products');
-    if (section) {
+    if (section !== null) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
   }
 
   function scrollToContact() {
     const section = document.getElementById('contact');
-    if (section) {
+    if (section !== null) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
   }
@@ -93,7 +117,7 @@ function App() {
 
   let cartCount = 0;
   for (let i = 0; i < cart.length; i++) {
-    cartCount += cart[i].quantity;
+    cartCount = cartCount + cart[i].quantity;
   }
 
   return (
@@ -115,14 +139,16 @@ function App() {
         </div>
         
         <div className="products-grid">
-          {productsData.map((product) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              addToCart={(p) => addToCart(p, 1)} 
-              showDetails={(p) => setSelectedProduct(p)} 
-            />
-          ))}
+          {productsData.map((product) => {
+            return (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                addToCart={(p) => addToCart(p, 1)} 
+                showDetails={(p) => setSelectedProduct(p)} 
+              />
+            );
+          })}
         </div>
       </section>
 

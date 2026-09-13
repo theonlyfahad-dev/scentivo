@@ -1,14 +1,14 @@
 import React from 'react';
 
-function Navbar({ cartCount, onCartClick, onHomeClick, onProductsClick, onContactClick }) {
+function Navbar(props) {
   return (
     <nav className="navbar">
-      <div className="navbar-logo" onClick={onHomeClick}>SENTIVA</div>
+      <div className="navbar-logo" onClick={props.onHomeClick}>SENTIVA</div>
       <ul className="navbar-links">
-        <li onClick={onHomeClick}>Home</li>
-        <li onClick={onProductsClick}>Products</li>
-        <li onClick={onContactClick}>Contact</li>
-        <li onClick={onCartClick}>Cart ({cartCount})</li>
+        <li onClick={props.onHomeClick}>Home</li>
+        <li onClick={props.onProductsClick}>Products</li>
+        <li onClick={props.onContactClick}>Contact</li>
+        <li onClick={props.onCartClick}>Cart ({props.cartCount})</li>
       </ul>
     </nav>
   );

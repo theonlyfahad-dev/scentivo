@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ProductModal({ product, closeDetails, addToCart }) {
+function ProductModal(props) {
   const [quantity, setQuantity] = useState(1);
 
   function handleIncrease() {
@@ -14,23 +14,25 @@ function ProductModal({ product, closeDetails, addToCart }) {
   }
 
   function handleAddToCart() {
-    addToCart(product, quantity);
-    closeDetails();
+    props.addToCart(props.product, quantity);
+    props.closeDetails();
   }
 
-  if (!product) return null;
+  if (props.product === null) {
+    return null;
+  }
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="modal-close" onClick={closeDetails}>X</button>
+        <button className="modal-close" onClick={props.closeDetails}>X</button>
         <div className="modal-content">
-          <img src={product.image} alt={product.name} className="modal-image" />
+          <img src={props.product.image} alt={props.product.name} className="modal-image" />
           <div className="modal-info">
-            <h2>{product.name}</h2>
-            <p className="modal-price">₹{product.price}</p>
-            <p className="modal-description">{product.description}</p>
-            <p className="modal-notes"><strong>Notes:</strong> {product.notes}</p>
+            <h2>{props.product.name}</h2>
+            <p className="modal-price">₹{props.product.price}</p>
+            <p className="modal-description">{props.product.description}</p>
+            <p className="modal-notes"><strong>Notes:</strong> {props.product.notes}</p>
             
             <div className="modal-quantity">
               <span>Quantity: </span>
